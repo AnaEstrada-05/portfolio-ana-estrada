@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Estrada — Fotografía Deportiva</title>
+<meta name="description" content="Ana Estrada. Fotografía deportiva — Chihuahua, México. Basquetbol, fútbol, voleibol, golf y carreras.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0b;
+    --panel: #131315;
+    --line: rgba(245,244,240,0.14);
+    --line-soft: rgba(245,244,240,0.07);
+    --white: #f5f4f0;
+    --gray: #9a9a9d;
+    --gray-dim: #6b6b6e;
+    --signal: #d81f2a;
+    --font-display: 'Anton', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; }
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+  }
+
+  ::selection { background: var(--signal); color: var(--white); }
+
+  /* ── SIGNATURE MARK ── a small square, like a scoreboard cell or a bib-tag corner */
+  .mark {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--signal);
+    flex: none;
+  }
+
+  .eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 300;
+    padding: 22px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,11,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+
+  .lang-toggle {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    background: none;
+    border: 1px solid var(--line);
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .lang-toggle:hover { border-color: var(--signal); color: var(--white); }
+
+  .menu-btn {
+    width: 32px; height: 22px;
+    position: relative;
+    background: none; border: none; cursor: pointer;
+    padding: 0;
+  }
+  .menu-btn .bar {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+  }
+  .menu-btn .bar1 { top: 2px; }
+  .menu-btn .bar2 { top: 18px; }
+  body.menu-open .menu-btn .bar1 { top: 10px; transform: rotate(45deg); }
+  body.menu-open .menu-btn .bar2 { top: 10px; transform: rotate(-45deg); }
+
+  /* ── MENU OVERLAY ── */
+  .menu-overlay {
+    position: fixed; inset: 0; z-index: 250;
+    background: var(--black);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.35s ease;
+  }
+  body.menu-open .menu-overlay { opacity: 1; visibility: visible; }
+
+  .menu-links { list-style: none; text-align: center; }
+  .menu-links li { margin: 6px 0; }
+  .menu-links a {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 7vw, 58px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    position: relative;
+    padding: 4px 0;
+  }
+  .menu-links a::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: 2px;
+    height: 3px; background: var(--signal);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s cubic-bezier(.23,1,.32,1);
+  }
+  .menu-links a:hover::after,
+  .menu-links a:focus-visible::after { transform: scaleX(1); }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100svh;
+    min-height: 560px;
+    display: flex; align-items: flex-end;
+    padding: 0 40px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background-image: url('basquetbol/AE101730.jpg');
+    background-size: cover;
+    background-position: 50% 22%;
+    filter: grayscale(15%);
+  }
+  .hero-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,11,0.96) 0%, rgba(10,10,11,0.55) 42%, rgba(10,10,11,0.1) 75%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 760px; }
+  .hero-content .eyebrow { margin-bottom: 18px; color: var(--gray); }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 9vw, 118px);
+    line-height: 0.94;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--gray);
+    margin-top: 20px;
+    max-width: 420px;
+    line-height: 1.65;
+  }
+
+  /* ── WORK GRID ── */
+  #work { padding: 88px 40px 0; }
+  .section-intro { margin-bottom: 28px; }
+  .section-intro .eyebrow { margin-bottom: 10px; }
+  .section-intro h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 58px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .work-tile {
+    position: relative;
+    overflow: hidden;
+    grid-column: span 2;
+    aspect-ratio: 4/3;
+    text-decoration: none;
+    display: block;
+  }
+  .work-tile.tile-lg { grid-column: span 3; aspect-ratio: 16/10; }
+  .work-tile img {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%;
+    filter: grayscale(10%) brightness(0.82);
+    transition: filter 0.35s ease, transform 0.5s ease;
+  }
+  .work-tile:hover img { filter: grayscale(0%) brightness(0.92); }
+  .work-tile-label {
+    position: absolute; left: 0; bottom: 0; right: 0;
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 14px;
+    background: linear-gradient(to top, rgba(10,10,11,0.85), transparent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .work-tile-label .count { color: var(--gray); }
+
+  /* ── SPORT SECTIONS ── */
+  .sport-section {
+    padding: 76px 40px 8px;
+    scroll-margin-top: 84px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .section-header .eyebrow { margin-bottom: 12px; }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .section-count .count-num { color: var(--white); font-weight: 600; }
+
+  /* ── GRIDS ── */
+  .grid-hero {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .grid-hero .photo-item:first-child { grid-row: span 2; height: 640px; }
+  .grid-hero .photo-item:not(:first-child) { height: 318px; }
+
+  .grid-masonry { columns: 3; column-gap: 4px; }
+  .grid-masonry .photo-item { break-inside: avoid; margin-bottom: 4px; }
+
+  .grid-wide {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .grid-wide .photo-item.wide { grid-column: span 2; }
+  .grid-wide .photo-item { height: 300px; }
+
+  .photo-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--panel);
+    cursor: pointer;
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+  .photo-item img {
+    width: 100%; height: 100%; display: block;
+    object-fit: cover;
+    object-position: 50% 22%;
+    filter: grayscale(8%) brightness(0.9);
+    transition: filter 0.35s ease;
+  }
+  .grid-masonry .photo-item img { height: auto; object-position: 50% 50%; }
+  .photo-item:hover img { filter: grayscale(0%) brightness(1); }
+
+  /* ── ABOUT ── */
+  #about {
+    border-top: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: stretch;
+    min-height: 600px;
+  }
+  .about-photo {
+    position: relative; overflow: hidden;
+    min-height: 380px;
+  }
+  .about-photo img {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%;
+    filter: grayscale(20%);
+  }
+  .about-body {
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .about-body .eyebrow { margin-bottom: 22px; }
+  .about-name {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4.5vw, 52px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .about-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 16px;
+    max-width: 42em;
+  }
+  .about-stats {
+    display: flex; flex-wrap: wrap; gap: 32px;
+    margin-top: 12px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .stat-num {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 34px;
+    color: var(--white);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-dim);
+    margin-top: 6px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 100px 40px;
+    text-align: center;
+    border-top: 1px solid var(--line-soft);
+  }
+  #contact .eyebrow { justify-content: center; margin-bottom: 22px; }
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 8vw, 96px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .contact-sub {
+    font-size: 15px;
+    color: var(--gray);
+    max-width: 440px;
+    margin: 0 auto 40px;
+    line-height: 1.75;
+  }
+  .contact-links {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  }
+  .contact-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 30px;
+    display: inline-block;
+    transition: all 0.25s;
+  }
+  .contact-btn.primary { background: var(--white); color: var(--black); }
+  .contact-btn.primary:hover { background: var(--signal); color: var(--white); }
+  .contact-btn.secondary { border: 1px solid var(--line); color: var(--gray); }
+  .contact-btn.secondary:hover { border-color: var(--white); color: var(--white); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 26px 40px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray);
+  }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.06em; color: var(--gray-dim);
+    text-align: right;
+  }
+
+  /* ── REVEAL (restrained) ── */
+  .reveal {
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(6,6,7,0.98);
+    align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 84vh; object-fit: contain; }
+  .lightbox-close {
+    position: absolute; top: 22px; right: 30px;
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 0.1em;
+    color: var(--gray);
+    cursor: pointer;
+    background: none; border: 1px solid var(--line);
+    padding: 9px 14px;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .lightbox-close:hover { color: var(--white); border-color: var(--white); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: none; border: none;
+    color: var(--gray);
+    font-family: var(--font-display);
+    font-size: 30px;
+    cursor: pointer;
+    padding: 16px;
+    transition: color 0.25s;
+  }
+  .lightbox-nav:hover { color: var(--signal); }
+  .lightbox-prev { left: 18px; }
+  .lightbox-next { right: 18px; }
+  .lightbox-counter {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.15em;
+    color: var(--gray-dim);
+    margin-top: 18px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 860px) {
+    nav { padding: 18px 20px; }
+    #hero { padding: 0 20px 44px; }
+    #work { padding: 76px 20px 0; }
+    .sport-section { padding: 56px 20px 4px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-tile, .work-tile.tile-lg { grid-column: span 1; aspect-ratio: 4/3; }
+    .grid-hero { grid-template-columns: 1fr; }
+    .grid-hero .photo-item:first-child { height: 300px; grid-row: span 1; }
+    .grid-hero .photo-item:not(:first-child) { height: 220px; }
+    .grid-masonry { columns: 2; }
+    .grid-wide { grid-template-columns: repeat(2, 1fr); }
+    .grid-wide .photo-item.wide { grid-column: span 2; }
+    #about { grid-template-columns: 1fr; }
+    .about-body { padding: 44px 20px 40px; }
+    .about-photo { min-height: 320px; order: 2; }
+    .about-stats { gap: 24px; }
+    #contact { padding: 72px 20px; }
+    footer { padding: 20px; flex-direction: column; text-align: center; }
+    .footer-meta { text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">ANA ESTRADA</a>
+  <div class="nav-right">
+    <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">EN</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false">
+      <span class="bar bar1"></span><span class="bar bar2"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-links">
+    <li><a href="#hero" data-i18n="navHome" data-close-menu>Inicio</a></li>
+    <li><a href="#work" data-i18n="navWork" data-close-menu>Trabajo</a></li>
+    <li><a href="#about" data-i18n="navAbout" data-close-menu>Sobre mí</a></li>
+    <li><a href="#contact" data-i18n="navContact" data-close-menu>Contacto</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img" role="img" data-i18n-aria="heroAlt" aria-label="Celebración en cancha, LNBP Femenil"></div>
+  <div class="hero-content">
+    <p class="eyebrow"><span class="mark"></span><span data-i18n="heroEyebrow">Fotografía deportiva · Chihuahua, México</span></p>
+    <h1 class="hero-title" data-i18n="heroTitle">DEPORTE,<br>DE CERCA.</h1>
+    <p class="hero-sub" data-i18n="heroSub">Cobertura de basquetbol, fútbol, voleibol, golf y carreras — en cancha, en pista, en meta.</p>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-intro reveal">
+    <p class="eyebrow"><span class="mark"></span><span data-i18n="workEyebrow">Portafolio</span></p>
+    <h2 data-i18n="workTitle">TRABAJO</h2>
+  </div>
+
+  <div class="work-grid reveal">
+    <a class="work-tile tile-lg" href="#section-carreras">
+      <img src="carreras/maraton-cdmx-05.jpg" alt="Carreras">
+      <span class="work-tile-label"><span class="mark"></span><span data-i18n="tileCarreras">Carreras</span> <span class="count">— 18</span></span>
+    </a>
+    <a class="work-tile tile-lg" href="#section-basquetbol">
+      <img src="basquetbol/basquetbol-featured.jpg" alt="Basquetbol">
+      <span class="work-tile-label"><span class="mark"></span><span data-i18n="tileBasquetbol">Basquetbol</span> <span class="count">— 16</span></span>
+    </a>
+    <a class="work-tile" href="#section-futbol">
+      <img src="futbol/futbol-featured.jpg" alt="Fútbol">
+      <span class="work-tile-label"><span class="mark"></span><span data-i18n="tileFutbol">Fútbol</span> <span class="count">— 21</span></span>
+    </a>
+    <a class="work-tile" href="#section-voleibol">
+      <img src="voleibol/voleibol-featured.jpg" alt="Voleibol">
+      <span class="work-tile-label"><span class="mark"></span><span data-i18n="tileVoleibol">Voleibol</span> <span class="count">— 10</span></span>
+    </a>
+    <a class="work-tile" href="#section-golf">
+      <img src="golf/golf-featured.jpg" alt="Golf">
+      <span class="work-tile-label"><span class="mark"></span><span data-i18n="tileGolf">Golf</span> <span class="count">— 13</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- BASQUETBOL -->
+<section class="sport-section" id="section-basquetbol">
+  <div class="section-header reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span>Liga Nacional · LNBP Femenil · Tec de Monterrey</p>
+      <h2 class="section-title" data-i18n="titleBasquetbol">Basquetbol</h2>
+    </div>
+    <span class="section-count"><span class="count-num">16</span> <span data-i18n="photosWord">fotos</span></span>
+  </div>
+
+  <div class="grid-hero">
+    <button class="photo-item" onclick="openLightbox('basquetbol',0)"><img src="basquetbol/basquetbol-featured.jpg" alt="Bloqueo bajo el aro, Adelitas vs Fuerza Regia"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',1)"><img src="basquetbol/AE101212.jpg" alt="Banca Adelitas"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',2)"><img src="basquetbol/AE100680.jpg" alt="Celebración en banca"></button>
+  </div>
+
+  <div class="grid-masonry">
+    <button class="photo-item" onclick="openLightbox('basquetbol',3)"><img src="basquetbol/AE101730.jpg" alt="Celebración LNBP"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',4)"><img src="basquetbol/AE100517.jpg" alt="Acción LNBP"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',5)"><img src="basquetbol/AE101246.jpg" alt="Layup"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',6)"><img src="basquetbol/AE100624.jpg" alt="Drive"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',7)"><img src="basquetbol/AE101308.jpg" alt="Bloqueo"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',8)"><img src="basquetbol/AE100801.jpg" alt="Dribbling"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',9)"><img src="basquetbol/AE100808.jpg" alt="Defensa"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',10)"><img src="basquetbol/AE100944.jpg" alt="Drive 2"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',11)"><img src="basquetbol/AE101470.jpg" alt="Basquetbol Tec"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',12)"><img src="basquetbol/AE101650.jpg" alt="Basquetbol Tec 2"></button>
+  </div>
+
+  <div class="grid-wide">
+    <button class="photo-item wide" onclick="openLightbox('basquetbol',13)"><img src="basquetbol/AE101290.jpg" alt="Arena llena"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',14)"><img src="basquetbol/AE109412.jpg" alt="Detalle balón"></button>
+    <button class="photo-item" onclick="openLightbox('basquetbol',15)"><img src="basquetbol/AE100413.jpg" alt="Árbitro"></button>
+  </div>
+</section>
+
+<!-- FÚTBOL -->
+<section class="sport-section" id="section-futbol">
+  <div class="section-header reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span>Varonil · Femenil · Intertecs · Borregos CHI</p>
+      <h2 class="section-title" data-i18n="titleFutbol">Fútbol</h2>
+    </div>
+    <span class="section-count"><span class="count-num">21</span> <span data-i18n="photosWord">fotos</span></span>
+  </div>
+
+  <div class="grid-hero">
+    <button class="photo-item" onclick="openLightbox('futbol',0)"><img src="futbol/futbol-featured.jpg" alt="Regate, Borregos CHI"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',1)"><img src="futbol/AE100095.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',2)"><img src="futbol/AE100126.jpg" alt="Fútbol"></button>
+  </div>
+
+  <div class="grid-masonry">
+    <button class="photo-item" onclick="openLightbox('futbol',3)"><img src="futbol/AE101877.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',4)"><img src="futbol/AE100634.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',5)"><img src="futbol/AE100895.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',6)"><img src="futbol/AE101452.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',7)"><img src="futbol/AE101479.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',8)"><img src="futbol/AE102699.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',9)"><img src="futbol/AE102787.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',10)"><img src="futbol/AE102944.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',11)"><img src="futbol/AE103210.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',12)"><img src="futbol/AE105364.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',13)"><img src="futbol/AE105438.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',14)"><img src="futbol/AE105498.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',15)"><img src="futbol/AE105572.jpg" alt="Fútbol"></button>
+  </div>
+
+  <div class="grid-wide">
+    <button class="photo-item wide" onclick="openLightbox('futbol',16)"><img src="futbol/AE108783.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',17)"><img src="futbol/AE109182.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',18)"><img src="futbol/AE109238.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',19)"><img src="futbol/AE109948.jpg" alt="Fútbol"></button>
+    <button class="photo-item" onclick="openLightbox('futbol',20)"><img src="futbol/AE109961.jpg" alt="Fútbol"></button>
+  </div>
+</section>
+
+<!-- VOLEIBOL -->
+<section class="sport-section" id="section-voleibol">
+  <div class="section-header reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span>Intertecs · Tec de Monterrey · Institucional</p>
+      <h2 class="section-title" data-i18n="titleVoleibol">Voleibol</h2>
+    </div>
+    <span class="section-count"><span class="count-num">10</span> <span data-i18n="photosWord">fotos</span></span>
+  </div>
+  <div class="grid-masonry">
+    <button class="photo-item" onclick="openLightbox('voleibol',0)"><img src="voleibol/voleibol-featured.jpg" alt="Colocadora, Tec CHI"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',1)"><img src="voleibol/AE101267.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',2)"><img src="voleibol/AE101857.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',3)"><img src="voleibol/AE102030.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',4)"><img src="voleibol/AE102033.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',5)"><img src="voleibol/AE102057.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',6)"><img src="voleibol/AE102071.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',7)"><img src="voleibol/AE102083.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',8)"><img src="voleibol/AE102972.jpg" alt="Voleibol"></button>
+    <button class="photo-item" onclick="openLightbox('voleibol',9)"><img src="voleibol/AE105677.jpg" alt="Voleibol"></button>
+  </div>
+</section>
+
+<!-- GOLF -->
+<section class="sport-section" id="section-golf">
+  <div class="section-header reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span>Bkue Open · Chihuahua</p>
+      <h2 class="section-title" data-i18n="titleGolf">Golf</h2>
+    </div>
+    <span class="section-count"><span class="count-num">13</span> <span data-i18n="photosWord">fotos</span></span>
+  </div>
+
+  <div class="grid-hero">
+    <button class="photo-item" onclick="openLightbox('golf',0)"><img src="golf/golf-featured.jpg" alt="Golfista de espaldas viendo el fairway"></button>
+    <button class="photo-item" onclick="openLightbox('golf',1)"><img src="golf/AE101797.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',2)"><img src="golf/AE101823.jpg" alt="Golf"></button>
+  </div>
+
+  <div class="grid-masonry">
+    <button class="photo-item" onclick="openLightbox('golf',3)"><img src="golf/AE100069.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',4)"><img src="golf/AE101969.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',5)"><img src="golf/AE101352.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',6)"><img src="golf/AE101928.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',7)"><img src="golf/AE101931.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',8)"><img src="golf/AE101954.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',9)"><img src="golf/AE100089.jpg" alt="Golf"></button>
+  </div>
+
+  <div class="grid-wide" style="margin-top:0">
+    <button class="photo-item" onclick="openLightbox('golf',10)"><img src="golf/AE101853.jpg" alt="Golf"></button>
+    <button class="photo-item" onclick="openLightbox('golf',11)"><img src="golf/AE101856.jpg" alt="Golf"></button>
+    <button class="photo-item wide" onclick="openLightbox('golf',12)"><img src="golf/AE101962.jpg" alt="Golf"></button>
+  </div>
+</section>
+
+<!-- CARRERAS -->
+<section class="sport-section" id="section-carreras">
+  <div class="section-header reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span>Maratón Ciudad de México · Carrera Pequeños Héroes · Tec CHI</p>
+      <h2 class="section-title" data-i18n="titleCarreras">Carreras</h2>
+    </div>
+    <span class="section-count"><span class="count-num">18</span> <span data-i18n="photosWord">fotos</span></span>
+  </div>
+
+  <div class="grid-masonry">
+    <button class="photo-item" onclick="openLightbox('carreras',0)"><img src="carreras/maraton-cdmx-01.jpg" alt="Corredor rumbo a la meta, Maratón CDMX"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',1)"><img src="carreras/maraton-cdmx-02.jpg" alt="Corredor enmascarado Blue Runners"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',2)"><img src="carreras/maraton-cdmx-03.jpg" alt="Corredora celebrando en la meta"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',3)"><img src="carreras/maraton-cdmx-04.jpg" alt="Corredor en silla de ruedas con bandera de México"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',4)"><img src="carreras/maraton-cdmx-05.jpg" alt="Piernas de corredores en movimiento"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',5)"><img src="carreras/maraton-cdmx-06.jpg" alt="Corredor chocando manos con el público"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',6)"><img src="carreras/maraton-cdmx-07.jpg" alt="Corredor con medalla frente a la Catedral"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',7)"><img src="carreras/maraton-cdmx-08.jpg" alt="Corredor mordiendo su medalla"></button>
+  </div>
+
+  <div class="grid-wide">
+    <button class="photo-item wide" onclick="openLightbox('carreras',8)"><img src="carreras/AE109644.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',9)"><img src="carreras/AE109482.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',10)"><img src="carreras/AE109498.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',11)"><img src="carreras/AE109510.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',12)"><img src="carreras/AE109606.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',13)"><img src="carreras/AE109621.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',14)"><img src="carreras/AE109713.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',15)"><img src="carreras/AE109758.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',16)"><img src="carreras/AE109980.jpg" alt="Carrera"></button>
+    <button class="photo-item" onclick="openLightbox('carreras',17)"><img src="carreras/AE109984.jpg" alt="Carrera"></button>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-body reveal">
+    <div>
+      <p class="eyebrow"><span class="mark"></span><span data-i18n="aboutEyebrow">Sobre mí · desde 2024</span></p>
+      <h2 class="about-name">ANA ESTRADA</h2>
+      <p class="about-text" data-i18n="aboutBio1">Fotógrafa deportiva con base en ingeniería. Cubro el deporte desde adentro: la cancha, el banco, las gradas — donde pasa lo que de verdad importa.</p>
+      <p class="about-text" data-i18n="aboutBio2">He cubierto la LNBP Femenil con las Adelitas de Chihuahua, torneos universitarios del Tec de Monterrey, el Maratón de la Ciudad de México y eventos masivos como la Carrera Pequeños Héroes. Cámara: Sony A6400. Edición en Lightroom y DaVinci Resolve.</p>
+    </div>
+    <div class="about-stats">
+      <div><div class="stat-num">2+</div><div class="stat-label" data-i18n="statYearsLabel">Años de experiencia</div></div>
+      <div><div class="stat-num">6+</div><div class="stat-label" data-i18n="statSportsLabel">Deportes cubiertos</div></div>
+      <div><div class="stat-num">150+</div><div class="stat-label" data-i18n="statPhotosLabel">Fotos por evento</div></div>
+    </div>
+  </div>
+  <div class="about-photo reveal">
+    <img src="AE107702.jpg" data-i18n-alt="aboutAlt" alt="Retrato de Ana Estrada">
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="eyebrow"><span class="mark"></span><span data-i18n="contactEyebrow">Disponible para proyectos</span></p>
+  <h2 class="contact-title" data-i18n="contactTitle">HABLEMOS.</h2>
+  <p class="contact-sub" data-i18n="contactSub">Cobertura de partidos, eventos masivos, contenido para redes deportivas y producción de video. Basada en Chihuahua, disponible para viajes.</p>
+  <div class="contact-links">
+    <a class="contact-btn primary" href="mailto:anaestrgz@gmail.com" data-i18n="contactPrimary">Escríbeme</a>
+    <a class="contact-btn secondary" href="https://ana-estrada-portfolio.vercel.app/" target="_blank" rel="noopener" data-i18n="contactSecondary">Ver portafolio web</a>
+    <a class="contact-btn secondary" href="https://www.linkedin.com/in/ana-estrada-84085a29b" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ANA ESTRADA</div>
+  <div class="footer-meta">
+    <span data-i18n="footerCopy">Fotografía deportiva · Chihuahua, México</span><br>
+    <span data-i18n="footerUpdate">Última actualización</span>: 1 SEP 2026
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" aria-label="Anterior">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" aria-label="Siguiente">›</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<script>
+// ── I18N ──
+const I18N = {
+  es: {
+    navHome: "Inicio", navWork: "Trabajo", navAbout: "Sobre mí", navContact: "Contacto",
+    heroEyebrow: "Fotografía deportiva · Chihuahua, México",
+    heroTitle: "DEPORTE,<br>DE CERCA.",
+    heroSub: "Cobertura de basquetbol, fútbol, voleibol, golf y carreras — en cancha, en pista, en meta.",
+    heroAlt: "Celebración en cancha, LNBP Femenil",
+    workEyebrow: "Portafolio", workTitle: "TRABAJO",
+    tileCarreras: "Carreras", tileBasquetbol: "Basquetbol", tileFutbol: "Fútbol", tileVoleibol: "Voleibol", tileGolf: "Golf",
+    titleBasquetbol: "Basquetbol", titleFutbol: "Fútbol", titleVoleibol: "Voleibol", titleGolf: "Golf", titleCarreras: "Carreras",
+    photosWord: "fotos",
+    aboutEyebrow: "Sobre mí · desde 2024",
+    aboutAlt: "Retrato de Ana Estrada",
+    aboutBio1: "Fotógrafa deportiva con base en ingeniería. Cubro el deporte desde adentro: la cancha, el banco, las gradas — donde pasa lo que de verdad importa.",
+    aboutBio2: "He cubierto la LNBP Femenil con las Adelitas de Chihuahua, torneos universitarios del Tec de Monterrey, el Maratón de la Ciudad de México y eventos masivos como la Carrera Pequeños Héroes. Cámara: Sony A6400. Edición en Lightroom y DaVinci Resolve.",
+    statYearsLabel: "Años de experiencia", statSportsLabel: "Deportes cubiertos", statPhotosLabel: "Fotos por evento",
+    contactEyebrow: "Disponible para proyectos",
+    contactTitle: "HABLEMOS.",
+    contactSub: "Cobertura de partidos, eventos masivos, contenido para redes deportivas y producción de video. Basada en Chihuahua, disponible para viajes.",
+    contactPrimary: "Escríbeme", contactSecondary: "Ver portafolio web",
+    footerUpdate: "Última actualización", footerCopy: "Fotografía deportiva · Chihuahua, México"
+  },
+  en: {
+    navHome: "Home", navWork: "Work", navAbout: "About", navContact: "Contact",
+    heroEyebrow: "Sports photography · Chihuahua, Mexico",
+    heroTitle: "SPORT,<br>UP CLOSE.",
+    heroSub: "Basketball, football, volleyball, golf and race coverage — courtside, trackside, at the finish line.",
+    heroAlt: "Courtside celebration, LNBP Femenil",
+    workEyebrow: "Portfolio", workTitle: "WORK",
+    tileCarreras: "Running", tileBasquetbol: "Basketball", tileFutbol: "Football", tileVoleibol: "Volleyball", tileGolf: "Golf",
+    titleBasquetbol: "Basketball", titleFutbol: "Football", titleVoleibol: "Volleyball", titleGolf: "Golf", titleCarreras: "Running",
+    photosWord: "photos",
+    aboutEyebrow: "About · shooting since 2024",
+    aboutAlt: "Portrait of Ana Estrada",
+    aboutBio1: "Sports photographer with a background in engineering. I cover the game from the inside — the court, the bench, the stands — wherever the real moment happens.",
+    aboutBio2: "I've covered LNBP Femenil with Adelitas de Chihuahua, university tournaments at Tec de Monterrey, the Mexico City Marathon and mass events like Carrera Pequeños Héroes. Camera: Sony A6400. Edited in Lightroom and DaVinci Resolve.",
+    statYearsLabel: "Years of experience", statSportsLabel: "Sports covered", statPhotosLabel: "Photos per event",
+    contactEyebrow: "Available for projects",
+    contactTitle: "LET'S TALK.",
+    contactSub: "Match coverage, mass participation events, content for sports social media and video production. Based in Chihuahua, available to travel.",
+    contactPrimary: "Get in touch", contactSecondary: "View web portfolio",
+    footerUpdate: "Last updated", footerCopy: "Sports photography · Chihuahua, Mexico"
+  }
+};
+
+function applyLang(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+    const key = el.getAttribute('data-i18n-alt');
+    if (I18N[lang][key] !== undefined) el.setAttribute('alt', I18N[lang][key]);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (I18N[lang][key] !== undefined) el.setAttribute('aria-label', I18N[lang][key]);
+  });
+  const toggle = document.getElementById('langToggle');
+  toggle.textContent = lang === 'es' ? 'EN' : 'ES';
+  toggle.setAttribute('aria-label', lang === 'es' ? 'Switch to English' : 'Cambiar a español');
+  try { localStorage.setItem('site-lang', lang); } catch (e) {}
+}
+
+let currentLang = 'es';
+try { currentLang = localStorage.getItem('site-lang') || 'es'; } catch (e) {}
+if (currentLang !== 'en') currentLang = 'es';
+applyLang(currentLang);
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  applyLang(currentLang);
+});
+
+// ── MENU ──
+const menuBtn = document.getElementById('menuBtn');
+menuBtn.addEventListener('click', () => {
+  const open = document.body.classList.toggle('menu-open');
+  menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.querySelectorAll('[data-close-menu]').forEach(link => {
+  link.addEventListener('click', () => {
+    document.body.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.body.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+});
+
+// ── SCROLL REVEAL (restrained) ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── LIGHTBOX ──
+const galleries = {
+  basquetbol: [
+    'basquetbol/basquetbol-featured.jpg','basquetbol/AE101212.jpg','basquetbol/AE100680.jpg',
+    'basquetbol/AE101730.jpg','basquetbol/AE100517.jpg','basquetbol/AE101246.jpg','basquetbol/AE100624.jpg',
+    'basquetbol/AE101308.jpg','basquetbol/AE100801.jpg','basquetbol/AE100808.jpg',
+    'basquetbol/AE100944.jpg','basquetbol/AE101470.jpg','basquetbol/AE101650.jpg',
+    'basquetbol/AE101290.jpg','basquetbol/AE109412.jpg','basquetbol/AE100413.jpg'
+  ],
+  futbol: [
+    'futbol/futbol-featured.jpg','futbol/AE100095.jpg','futbol/AE100126.jpg',
+    'futbol/AE101877.jpg','futbol/AE100634.jpg','futbol/AE100895.jpg','futbol/AE101452.jpg',
+    'futbol/AE101479.jpg','futbol/AE102699.jpg','futbol/AE102787.jpg',
+    'futbol/AE102944.jpg','futbol/AE103210.jpg','futbol/AE105364.jpg',
+    'futbol/AE105438.jpg','futbol/AE105498.jpg','futbol/AE105572.jpg',
+    'futbol/AE108783.jpg','futbol/AE109182.jpg','futbol/AE109238.jpg',
+    'futbol/AE109948.jpg','futbol/AE109961.jpg'
+  ],
+  voleibol: [
+    'voleibol/voleibol-featured.jpg',
+    'voleibol/AE101267.jpg','voleibol/AE101857.jpg','voleibol/AE102030.jpg',
+    'voleibol/AE102033.jpg','voleibol/AE102057.jpg','voleibol/AE102071.jpg',
+    'voleibol/AE102083.jpg','voleibol/AE102972.jpg','voleibol/AE105677.jpg'
+  ],
+  golf: [
+    'golf/golf-featured.jpg','golf/AE101797.jpg','golf/AE101823.jpg',
+    'golf/AE100069.jpg','golf/AE101969.jpg','golf/AE101352.jpg','golf/AE101928.jpg',
+    'golf/AE101931.jpg','golf/AE101954.jpg','golf/AE100089.jpg',
+    'golf/AE101853.jpg','golf/AE101856.jpg','golf/AE101962.jpg'
+  ],
+  carreras: [
+    'carreras/maraton-cdmx-01.jpg','carreras/maraton-cdmx-02.jpg','carreras/maraton-cdmx-03.jpg',
+    'carreras/maraton-cdmx-04.jpg','carreras/maraton-cdmx-05.jpg','carreras/maraton-cdmx-06.jpg',
+    'carreras/maraton-cdmx-07.jpg','carreras/maraton-cdmx-08.jpg',
+    'carreras/AE109644.jpg','carreras/AE109482.jpg','carreras/AE109498.jpg',
+    'carreras/AE109510.jpg','carreras/AE109606.jpg','carreras/AE109621.jpg',
+    'carreras/AE109713.jpg','carreras/AE109758.jpg','carreras/AE109980.jpg','carreras/AE109984.jpg'
+  ]
+};
+
+let currentGallery = '', currentIndex = 0;
+
+function openLightbox(gallery, index) {
+  if (!galleries[gallery]) return;
+  currentGallery = gallery;
+  currentIndex = index;
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function renderLightbox() {
+  const g = galleries[currentGallery];
+  document.getElementById('lightbox-img').src = g[currentIndex];
+  document.getElementById('lightbox-counter').textContent = `${currentIndex + 1} / ${g.length}`;
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lightboxNav(dir) {
+  const g = galleries[currentGallery];
+  currentIndex = (currentIndex + dir + g.length) % g.length;
+  renderLightbox();
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+});
+document.getElementById('lightbox').addEventListener('click', function (e) {
+  if (e.target === this) closeLightbox();
+});
+</script>
+</body>
+</html>
